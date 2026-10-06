@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Board · Trello{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="modal-content modal-content-dark p-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="bi bi-layout-three-columns text-primary fs-4"></i>
+                    <h4 class="fw-bold text-white mb-0">Create Board</h4>
+                </div>
+                <p class="text-secondary small mb-4">A board is made up of cards ordered on lists. Use it to manage projects and track work.</p>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Board Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Workspace</label>
+                        {{ form.workspace }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Description <span class="text-muted fw-normal">(optional)</span></label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Theme</label>
+                        {{ form.background }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-light small fw-semibold">Visibility</label>
+                        {{ form.visibility }}
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4 fw-bold">Create Board</button>
+                        <a href="{% url 'home:home' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Log in to Trello{% endblock %}
+
+{% block content %}
+<div class="auth-page-wrapper">
+    <div class="auth-card text-center">
+        <!-- Logo Badge -->
+        <div class="auth-logo-badge">
+            <i class="bi bi-trello"></i>
+        </div>
+
+        <h3 class="fw-bold text-white mb-1">Welcome back</h3>
+        <p class="text-secondary mb-4 small">Log in to continue to your workspaces and boards</p>
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger py-2 small text-start mb-3">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="text-start">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label text-light small fw-semibold">Username</label>
+                <div class="position-relative">
+                    <input type="text" name="username" class="form-control form-control-trello ps-5" placeholder="Enter your username" required autofocus>
+                    <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.username.errors %}
+                <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label class="form-label text-light small fw-semibold mb-0">Password</label>
+                </div>
+                <div class="position-relative">
+                    <input type="password" name="password" class="form-control form-control-trello ps-5" placeholder="Enter your password" required>
+                    <i class="bi bi-shield-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.password.errors %}
+                <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-auth-primary mb-3">
+                Log In
+            </button>
+        </form>
+
+        <hr class="border-secondary opacity-25 my-4">
+
+        <p class="text-secondary small mb-0">
+            Don't have an account? 
+            <a href="{% url 'home:register' %}" class="fw-bold text-primary text-decoration-none">Sign up for free</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

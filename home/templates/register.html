@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign up for Trello{% endblock %}
+
+{% block content %}
+<div class="auth-page-wrapper">
+    <div class="auth-card text-center">
+        <!-- Logo Badge -->
+        <div class="auth-logo-badge">
+            <i class="bi bi-trello"></i>
+        </div>
+
+        <h3 class="fw-bold text-white mb-1">Create your account</h3>
+        <p class="text-secondary mb-4 small">Get started with boards, lists, and cards in seconds</p>
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger py-2 small text-start mb-3">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="text-start">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label text-light small fw-semibold">Username</label>
+                <div class="position-relative">
+                    <input type="text" name="username" class="form-control form-control-trello ps-5" placeholder="Choose a username" required autofocus>
+                    <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.username.errors %}
+                <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-light small fw-semibold">Email Address</label>
+                <div class="position-relative">
+                    <input type="email" name="email" class="form-control form-control-trello ps-5" placeholder="name@company.com" required>
+                    <i class="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.email.errors %}
+                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-light small fw-semibold">Password</label>
+                <div class="position-relative">
+                    <input type="password" name="password1" class="form-control form-control-trello ps-5" placeholder="Create a strong password" required>
+                    <i class="bi bi-shield-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.password1.errors %}
+                <div class="text-danger small mt-1">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label text-light small fw-semibold">Confirm Password</label>
+                <div class="position-relative">
+                    <input type="password" name="password2" class="form-control form-control-trello ps-5" placeholder="Confirm your password" required>
+                    <i class="bi bi-shield-check position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                </div>
+                {% if form.password2.errors %}
+                <div class="text-danger small mt-1">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-auth-primary mb-3">
+                Create Free Account
+            </button>
+        </form>
+
+        <hr class="border-secondary opacity-25 my-4">
+
+        <p class="text-secondary small mb-0">
+            Already have an account? 
+            <a href="{% url 'home:login' %}" class="fw-bold text-primary text-decoration-none">Log in here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

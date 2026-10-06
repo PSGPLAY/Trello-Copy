@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Boards · Trello{% endblock %}
+
+{% block content %}
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="app-sidebar">
+        <!-- Main Navigation Links -->
+        <div class="sidebar-nav-section">
+            <a href="{% url 'home:home' %}" class="sidebar-link active">
+                <i class="bi bi-kanban"></i>
+                <span>Boards</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Templates</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-activity"></i>
+                <span>Home Feed</span>
+            </a>
+        </div>
+
+        <hr class="border-secondary opacity-25 my-1">
+
+        <!-- Workspaces Section -->
+        <div class="sidebar-nav-section">
+            <div class="sidebar-title">
+                <span>Workspaces</span>
+                <button class="btn btn-link text-muted p-0" data-bs-toggle="modal" data-bs-target="#modalCreateWorkspace" title="Add Workspace">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </div>
+
+            {% for ws in workspaces %}
+            <a href="{% url 'home:workspace_detail' ws.id %}" class="sidebar-link">
+                <div class="workspace-badge-icon">{{ ws.name|first|upper }}</div>
+                <span class="text-truncate">{{ ws.name }}</span>
+            </a>
+            {% empty %}
+            <div class="px-2 py-1 text-muted small">No workspaces yet</div>
+            {% endfor %}
+        </div>
+
+        <!-- Bottom Sidebar Links -->
+        <div class="mt-auto sidebar-nav-section">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-question-circle"></i>
+                <span>Help & Docs</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="app-main-content">
+
+        <!-- HERO BANNER -->
+        <div class="dashboard-hero">
+            <div>
+                <h2 class="fw-bold text-white mb-1">Welcome back, {{ user.username }} 👋</h2>
+                <p class="text-secondary mb-0">Stay organized, track tasks, and collaborate seamlessly across boards.</p>
+            </div>
+            
+            <div class="hero-stats-row">
+                <div class="stat-pill">
+                    <div class="stat-pill-icon bg-primary bg-opacity-25 text-primary">
+                        <i class="bi bi-kanban-fill"></i>
+                    </div>
+                    <div>
+                        <div class="stat-number">{{ total_boards }}</div>
+                        <div class="stat-label">Active Boards</div>
+                    </div>
+                </div>
+
+                <div class="stat-pill">
+                    <div class="stat-pill-icon bg-success bg-opacity-25 text-success">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-number">{{ total_tasks }}</div>
+                        <div class="stat-label">Total Tasks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEARCH / FILTER FEEDBACK -->
+        <div id="noSearchResults" class="text-center py-5 d-none">
+            <i class="bi bi-search text-muted fs-1 mb-2"></i>
+            <h5 class="text-secondary">No boards matching your search</h5>
+        </div>
+
+        <!-- WORKSPACES & BOARDS SECTIONS -->
+        {% for ws in workspaces %}
+        <section class="workspace-group mb-5" data-workspace-id="{{ ws.id }}">
+            <div class="workspace-header-bar">
+                <div class="workspace-title-group">
+                    <div class="workspace-avatar-lg">
+                        {{ ws.name|first|upper }}
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2">
+                            <h4 class="fw-bold mb-0 text-white">{{ ws.name }}</h4>
+                            <span class="badge bg-secondary bg-opacity-25 text-light fw-semibold">Workspace</span>
+                        </div>
+                        <small class="text-muted">{{ ws.boards.count }} board{{ ws.boards.count|pluralize }} · {{ ws.description|default:"No description" }}</small>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="{% url 'home:workspace_detail' ws.id %}" class="btn btn-outline-light btn-sm fw-semibold">
+                        <i class="bi bi-folder2-open me-1"></i> View Workspace
+                    </a>
+                </div>
+            </div>
+
+            <!-- BOARDS GRID -->
+            <div class="boards-grid">
+                {% for board in ws.boards.all %}
+                <a href="{% url 'home:board_detail' board.id %}" class="board-card-tile {{ board.background|default:'gradient-ocean' }}" data-board-name="{{ board.name|lower }}">
+                    <div class="board-card-content">
+                        <h5 class="board-card-title">{{ board.name }}</h5>
+                    </div>
+
+                    <div class="board-card-meta">
+                        <span class="board-visibility-pill">
+                            {% if board.visibility == 'private' %}
+                                <i class="bi bi-lock-fill"></i> Private
+                            {% elif board.visibility == 'public' %}
+                                <i class="bi bi-globe"></i> Public
+                            {% else %}
+                                <i class="bi bi-people-fill"></i> Workspace
+                            {% endif %}
+                        </span>
+
+                        <span class="board-task-count">
+                            <i class="bi bi-layout-three-columns"></i>
+                        </span>
+                    </div>
+                </a>
+                {% endfor %}
+
+                <!-- CREATE BOARD TILE FOR THIS WORKSPACE -->
+                <a href="#" class="create-board-tile" data-bs-toggle="modal" data-bs-target="#modalCreateBoardSpecific{{ ws.id }}">
+                    <i class="bi bi-plus-circle text-primary"></i>
+                    <span>Create new board</span>
+                </a>
+            </div>
+
+            <!-- MODAL: CREATE BOARD FOR THIS SPECIFIC WORKSPACE -->
+            <div class="modal fade" id="modalCreateBoardSpecific{{ ws.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-content-dark">
+                        <div class="modal-header modal-header-custom">
+                            <h5 class="modal-title fw-bold"><i class="bi bi-layout-three-columns text-primary me-2"></i>Create Board in {{ ws.name }}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="{% url 'home:workspace_detail' ws.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="workspace" value="{{ ws.id }}">
+                            <div class="modal-body modal-body-custom">
+                                <div class="mb-3">
+                                    <label class="form-label text-light fw-semibold">Board Title</label>
+                                    <input type="text" name="name" class="form-control form-control-trello" placeholder="e.g. Sprint Planning, Project Alpha" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-light fw-semibold">Description <span class="text-muted fw-normal">(optional)</span></label>
+                                    <textarea name="description" class="form-control form-control-trello" rows="2" placeholder="What is this board for?"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-light fw-semibold">Board Theme</label>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="background" value="gradient-ocean" class="d-none theme-radio" checked>
+                                            <div class="gradient-ocean rounded p-2 text-white border border-light border-opacity-25 text-center fw-bold" style="width: 58px; height: 40px;">🌊</div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="background" value="gradient-sunset" class="d-none theme-radio">
+                                            <div class="gradient-sunset rounded p-2 text-white border border-light border-opacity-25 text-center fw-bold" style="width: 58px; height: 40px;">🌅</div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="background" value="gradient-emerald" class="d-none theme-radio">
+                                            <div class="gradient-emerald rounded p-2 text-white border border-light border-opacity-25 text-center fw-bold" style="width: 58px; height: 40px;">🌲</div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="background" value="gradient-violet" class="d-none theme-radio">
+                                            <div class="gradient-violet rounded p-2 text-white border border-light border-opacity-25 text-center fw-bold" style="width: 58px; height: 40px;">🔮</div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="background" value="gradient-amber" class="d-none theme-radio">
+                                            <div class="gradient-amber rounded p-2 text-white border border-light border-opacity-25 text-center fw-bold" style="width: 58px; height: 40px;">⚡</div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-light fw-semibold">Visibility</label>
+                                    <select name="visibility" class="form-select form-control-trello">
+                                        <option value="workspace">👥 Workspace (All workspace members can see)</option>
+                                        <option value="private">🔒 Private (Only you and invited collaborators)</option>
+                                        <option value="public">🌐 Public (Anyone with the link can view)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-top border-secondary border-opacity-25 px-4 py-3">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary px-4 fw-bold">Create Board</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+
+    </main>
+</div>
+
+<!-- CLIENT SEARCH SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("globalBoardFilter");
+    if (!searchInput) return;
+
+    searchInput.addEventListener("input", function() {
+        const query = searchInput.value.toLowerCase().trim();
+        const boardCards = document.querySelectorAll(".board-card-tile");
+        let visibleCount = 0;
+
+        boardCards.forEach(card => {
+            const name = card.dataset.boardName || "";
+            if (name.includes(query)) {
+                card.style.display = "flex";
+                visibleCount++;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        const noResults = document.getElementById("noSearchResults");
+        if (noResults) {
+            if (visibleCount === 0 && query.length > 0) {
+                noResults.classList.remove("d-none");
+            } else {
+                noResults.classList.add("d-none");
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
