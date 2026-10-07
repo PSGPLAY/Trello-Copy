@@ -1,0 +1,1243 @@
+/* ==========================================================================
+   TRELLO / FLOWBOARD MODERN DESIGN SYSTEM
+   Inspired by Trello with a fresh, modern, vibrant dark & light aesthetics.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+:root {
+    /* Brand & Accent Colors */
+    --brand-primary: #0c66e4;
+    --brand-primary-hover: #0055cc;
+    --brand-gradient: linear-gradient(135deg, #0c66e4 0%, #6366f1 100%);
+    --brand-accent: #6366f1;
+    --brand-accent-glow: rgba(99, 102, 241, 0.25);
+    
+    /* Dark Surface Colors */
+    --bg-app: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-elevated: #283548;
+    --bg-surface-hover: #334155;
+    --bg-nav: rgba(15, 23, 42, 0.85);
+    --bg-sidebar: #131d31;
+    
+    /* Board List & Card Colors */
+    --list-bg: #10192a;
+    --list-header-bg: #132037;
+    --card-bg: #1e293b;
+    --card-bg-hover: #26354a;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-border-hover: rgba(99, 102, 241, 0.4);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.15);
+    --card-shadow-hover: 0 10px 20px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(99, 102, 241, 0.2);
+
+    /* Text Tokens */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-inverted: #0f172a;
+
+    /* Border & Divider Tokens */
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-focus: #6366f1;
+
+    /* Label / Tag Badges */
+    --badge-blue: #3b82f6;
+    --badge-green: #10b981;
+    --badge-amber: #f59e0b;
+    --badge-red: #ef4444;
+    --badge-purple: #8b5cf6;
+    --badge-teal: #14b8a6;
+    
+    /* Gradients for Board Themes */
+    --theme-ocean: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0f172a 100%);
+    --theme-sunset: linear-gradient(135deg, #e11d48 0%, #ea580c 45%, #1e1b4b 100%);
+    --theme-emerald: linear-gradient(135deg, #059669 0%, #047857 40%, #064e3b 100%);
+    --theme-violet: linear-gradient(135deg, #7c3aed 0%, #6366f1 45%, #1e1b4b 100%);
+    --theme-midnight: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
+    --theme-amber: linear-gradient(135deg, #d97706 0%, #b45309 45%, #451a03 100%);
+
+    /* Radii */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --trans-fast: 0.15s ease;
+    --trans-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   GLOBAL RESET & BASE STYLES
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: -0.01em;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--brand-primary);
+    text-decoration: none;
+    transition: color var(--trans-fast);
+}
+
+a:hover {
+    color: #60a5fa;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.32);
+}
+
+/* ==========================================================================
+   TOP GLOBAL NAVIGATION BAR
+   ========================================================================== */
+
+.app-navbar {
+    background: var(--bg-nav);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    padding: 0.55rem 1.25rem;
+    transition: background-color var(--trans-normal);
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #fff !important;
+    letter-spacing: -0.03em;
+}
+
+.brand-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 10px rgba(12, 102, 228, 0.4);
+}
+
+.nav-trello-link {
+    color: var(--text-secondary) !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.45rem 0.75rem !important;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all var(--trans-fast);
+}
+
+.nav-trello-link:hover, .nav-trello-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-create-nav {
+    background: var(--brand-gradient);
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-sm);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(12, 102, 228, 0.35);
+    transition: all var(--trans-fast);
+}
+
+.btn-create-nav:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(12, 102, 228, 0.5);
+    color: #ffffff;
+}
+
+/* Global Search Input */
+.nav-search-container {
+    position: relative;
+    max-width: 260px;
+    width: 100%;
+}
+
+.nav-search-input {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-size: 0.88rem;
+    padding: 0.45rem 0.75rem 0.45rem 2.1rem;
+    width: 100%;
+    transition: all var(--trans-fast);
+}
+
+.nav-search-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--brand-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    color: #fff;
+}
+
+.nav-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.nav-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+/* User Avatar Pill */
+.user-avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+}
+
+.user-avatar-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Glass Dropdown Menu */
+.dropdown-menu-glass {
+    background: #182234 !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: blur(20px);
+    padding: 0.6rem;
+    min-width: 220px;
+}
+
+.dropdown-menu-glass .dropdown-item {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--trans-fast);
+}
+
+.dropdown-menu-glass .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.dropdown-menu-glass .dropdown-divider {
+    border-top: 1px solid var(--border-subtle);
+    margin: 0.4rem 0;
+}
+
+/* ==========================================================================
+   APP LAYOUT (SIDEBAR + MAIN CONTENT)
+   ========================================================================== */
+
+.app-layout {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 58px);
+}
+
+.app-sidebar {
+    width: 260px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-subtle);
+    padding: 1.25rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+
+.sidebar-nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    padding: 0 0.6rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--trans-fast);
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    transition: color var(--trans-fast);
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.sidebar-link:hover i {
+    color: var(--brand-accent);
+}
+
+.sidebar-link.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #ffffff;
+    border-left: 3px solid var(--brand-accent);
+}
+
+.sidebar-link.active i {
+    color: var(--brand-accent);
+}
+
+.workspace-badge-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-main-content {
+    flex: 1;
+    background: var(--bg-app);
+    padding: 2rem;
+    overflow-y: auto;
+    max-width: 100%;
+}
+
+/* ==========================================================================
+   DASHBOARD HERO & STATS
+   ========================================================================== */
+
+.dashboard-hero {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+}
+
+.dashboard-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-stats-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-pill-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.stat-number {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   WORKSPACE & BOARD CARDS
+   ========================================================================== */
+
+.workspace-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.workspace-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.workspace-avatar-lg {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0c66e4, #6366f1);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(12, 102, 228, 0.3);
+}
+
+.boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Individual Board Card */
+.board-card-tile {
+    height: 130px;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--trans-normal);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.board-card-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15);
+    transition: background var(--trans-fast);
+}
+
+.board-card-tile:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.board-card-tile:hover::after {
+    background: rgba(0, 0, 0, 0);
+}
+
+.board-card-content {
+    position: relative;
+    z-index: 2;
+}
+
+.board-card-title {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.board-card-meta {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.board-visibility-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    background: rgba(0, 0, 0, 0.45);
+    color: #e2e8f0;
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.board-task-count {
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Background Gradients */
+.gradient-ocean { background: var(--theme-ocean); }
+.gradient-sunset { background: var(--theme-sunset); }
+.gradient-emerald { background: var(--theme-emerald); }
+.gradient-violet { background: var(--theme-violet); }
+.gradient-midnight { background: var(--theme-midnight); }
+.gradient-amber { background: var(--theme-amber); }
+
+/* Create Board Tile */
+.create-board-tile {
+    height: 130px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+    text-decoration: none;
+}
+
+.create-board-tile:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: var(--brand-accent);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.create-board-tile i {
+    font-size: 1.4rem;
+}
+
+/* ==========================================================================
+   TRELLO BOARD CANVAS & HEADER
+   ========================================================================== */
+
+.board-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 58px);
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    transition: background 0.4s ease;
+}
+
+/* Board Top Header Toolbar */
+.board-toolbar {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    z-index: 10;
+}
+
+.board-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.board-name-heading {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--trans-fast);
+}
+
+.board-name-heading:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.board-star-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.board-star-btn:hover, .board-star-btn.starred {
+    color: #fbbf24;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.board-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.board-chip:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+/* Member Avatars Group (Collab Feature Ready) */
+.member-avatar-group {
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
+.member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-full);
+    border: 2px solid #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-left: -6px;
+    cursor: pointer;
+    transition: transform var(--trans-fast);
+}
+
+.member-avatar:hover {
+    transform: translateY(-2px) scale(1.1);
+    z-index: 5;
+}
+
+.member-avatar.invite-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    color: var(--text-secondary);
+}
+
+.member-avatar.invite-btn:hover {
+    background: var(--brand-primary);
+    color: #fff;
+    border-style: solid;
+}
+
+/* ==========================================================================
+   HORIZONTAL LIST CANVAS & TRELLO LISTS
+   ========================================================================== */
+
+.board-canvas {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    user-select: none;
+}
+
+.trello-list-column {
+    width: 290px;
+    min-width: 290px;
+    max-height: calc(100vh - 140px);
+    background: var(--list-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem;
+    backdrop-filter: blur(12px);
+    transition: border-color var(--trans-fast);
+}
+
+.trello-list-column.drag-over {
+    border-color: var(--brand-accent);
+    background: rgba(16, 25, 42, 0.95);
+    box-shadow: 0 0 0 2px var(--brand-accent);
+}
+
+.list-column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.6rem 0.6rem;
+    position: relative;
+}
+
+.list-column-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.list-badge-count {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+}
+
+.list-options-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.list-options-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Task Cards Container */
+.tasks-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.2rem 0.2rem 0.5rem;
+    min-height: 20px;
+}
+
+/* ==========================================================================
+   TASK CARDS
+   ========================================================================== */
+
+.trello-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    box-shadow: var(--card-shadow);
+    cursor: grab;
+    transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.18s ease, border-color 0.18s ease;
+    position: relative;
+}
+
+.trello-card:hover {
+    background: var(--card-bg-hover);
+    border-color: var(--card-border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.trello-card:active {
+    cursor: grabbing;
+}
+
+.trello-card.dragging {
+    opacity: 0.4;
+    transform: scale(0.97) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Card Label Badge */
+.card-label-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.label-pill {
+    height: 8px;
+    width: 42px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+}
+
+.label-pill.blue { background-color: var(--badge-blue); }
+.label-pill.green { background-color: var(--badge-green); }
+.label-pill.amber { background-color: var(--badge-amber); }
+.label-pill.red { background-color: var(--badge-red); }
+.label-pill.purple { background-color: var(--badge-purple); }
+.label-pill.teal { background-color: var(--badge-teal); }
+
+.card-title-text {
+    color: #f8fafc;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+}
+
+.card-desc-preview {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.65rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.card-badges-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.card-badge-item.due-soon {
+    color: #fbbf24;
+}
+
+.card-quick-actions {
+    display: none;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    gap: 4px;
+}
+
+.trello-card:hover .card-quick-actions {
+    display: flex;
+}
+
+.btn-card-quick {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.btn-card-quick:hover {
+    background: var(--brand-primary);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   INLINE COMPOSERS (ADD CARD & ADD LIST)
+   ========================================================================== */
+
+.add-card-toggle-btn {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+    margin-top: 0.25rem;
+}
+
+.add-card-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.inline-card-composer {
+    display: none;
+    padding: 0.35rem 0.2rem 0.2rem;
+}
+
+.inline-card-textarea {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--brand-accent);
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.8rem;
+    outline: none;
+    resize: none;
+    min-height: 68px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.inline-composer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.5rem;
+}
+
+.btn-composer-submit {
+    background: var(--brand-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--trans-fast);
+}
+
+.btn-composer-submit:hover {
+    background: var(--brand-primary-hover);
+}
+
+.btn-composer-cancel {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.btn-composer-cancel:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Add List Column Tile */
+.add-list-column {
+    width: 290px;
+    min-width: 290px;
+}
+
+.add-list-toggle-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    padding: 0.85rem 1rem;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+}
+
+.add-list-toggle-card:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+.add-list-form-card {
+    display: none;
+    background: var(--list-bg);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    padding: 0.85rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   CARD DETAIL MODAL
+   ========================================================================== */
+
+.modal-content-dark {
+    background: #182234 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+.modal-header-custom {
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-body-custom {
+    padding: 1.5rem;
+}
+
+.card-detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.card-detail-heading {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ==========================================================================
+   AUTHENTICATION PAGES (LOGIN & REGISTER)
+   ========================================================================== */
+
+.auth-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.25), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(12, 102, 228, 0.2), transparent 45%),
+                #0f172a;
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.auth-logo-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 4px 15px rgba(12, 102, 228, 0.4);
+}
+
+.form-control-trello {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all var(--trans-fast);
+}
+
+.form-control-trello:focus {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: var(--brand-accent);
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.form-control-trello::placeholder {
+    color: var(--text-muted);
+}
+
+.btn-auth-primary {
+    background: var(--brand-gradient);
+    border: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--radius-md);
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(12, 102, 228, 0.35);
+    transition: all var(--trans-fast);
+    cursor: pointer;
+}
+
+.btn-auth-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(12, 102, 228, 0.5);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .app-sidebar {
+        display: none;
+    }
+    .app-main-content {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .board-toolbar {
+        padding: 0.6rem 0.8rem;
+    }
+    .boards-grid {
+        grid-template-columns: 1fr;
+    }
+    .auth-card {
+        padding: 1.75rem 1.25rem;
+    }
+}
